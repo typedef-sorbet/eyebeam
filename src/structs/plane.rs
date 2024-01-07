@@ -2,8 +2,8 @@ use raster::{Color, Image};
 use super::{vec3::Vec3, shape::Shape, ray::Ray, scene::Scene, color::color_add};
 
 pub struct Plane {
+    pub point:Vec3,
     pub normal: Vec3,
-    pub dist_from_normal: f64,
     pub color: Color
 }
 
@@ -14,8 +14,7 @@ impl Shape for Plane {
         if angle.abs() < f64::EPSILON {
             vec![]
         } else {
-            let b = self.normal.dot(&(ray.origin - (self.normal * self.dist_from_normal)));
-            vec![-b / angle]
+            return vec![(self.point - ray.origin).dot(&self.normal) / angle]
         }
     }
 
@@ -26,17 +25,13 @@ impl Shape for Plane {
     fn normal_at(&self, _point: &Vec3) -> Vec3 {
         self.normal
     }
-
-    fn material(&self) -> Image {
-        raster::Image::blank(0, 0)
-    }
 }
 
 impl Plane {
-    pub fn new(direction: Vec3, distance: f64, color: Color) -> Self {
+    pub fn new(point: Vec3, direction: Vec3, color: Color) -> Self {
         Self {
+            point,
             normal: direction.unit(),
-            dist_from_normal: distance,
             color
         }
     }

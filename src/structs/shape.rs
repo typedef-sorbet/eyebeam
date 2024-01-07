@@ -1,6 +1,6 @@
 use raster::{Color, Image};
 
-use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add};
+use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add, light};
 
 pub trait Shape {
     fn intersections(&self, _ray: &Ray) -> Vec<f64> {
@@ -38,6 +38,10 @@ pub trait Shape {
 
             // println!("Normal vector at point {:?}: {:?} -- dot product is {}", normal, v, brightness);
 
+            if scene.shapes.iter().any(|shape| shape.casts_shadow(point, v)) {
+                continue;
+            }
+
             if brightness <= 0.0 { 
                 continue;
             }
@@ -48,5 +52,12 @@ pub trait Shape {
         }
 
         return color;
+    }
+
+    fn casts_shadow(&self, point: &Vec3, light_vector: Vec3) -> bool {
+        let distance_to_light = Vec3::between(point, &light_vector).length();
+        let ray = Ray::new(*point, light_vector);
+
+        self.closest_distance_along_ray(&ray) <= distance_to_light
     }
 }

@@ -18,22 +18,21 @@ fn main() {
 
     let mut scene: Scene = Scene::new(camera, background);
 
+    // spheres
     scene.shapes.push(Box::new(Sphere::new(Vec3::new(-5, 0, 0), 1, Color::hex("#00FFFF").unwrap())));   // cyan
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 5, 0, 0), 1, Color::hex("#FF0000").unwrap())));   // red
-
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0,-5, 0), 1, Color::hex("#FF00FF").unwrap())));   // magenta
-
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0,-5), 1, Color::hex("#FFFF00").unwrap())));   // yellow
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 5), 1, Color::hex("#0000FF").unwrap())));   // blue
-
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 0), 1, Color::hex("#FFFFFF").unwrap())));   // white (duh)
 
-    scene.shapes.push(Box::new(Plane::new(Vec3::J * -1, -6.0, Color::green())));
+    // plane
+    scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), Color::white())));
 
     // TODO Prism not currently working
     // scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3), Vec3::new(4, -1, -4), Color::white())));
 
-    scene.lights.push(Light::new(Vec3::new(0, 0, -10), Color::hex("#FFFFFF").unwrap()));
+    scene.lights.push(Light::new(Vec3::new(5, -5, -5) * 10, Color::hex("#FFFFFF").unwrap()));
     // scene.lights.push(Light::new(Vec3::new(0, 0, -10), Color::hex("#FF0000").unwrap()));
 
     // Draw a 50x50 grid of pixels
