@@ -3,7 +3,7 @@
 mod structs;
 
 use raster::{Image, Color, save};
-use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::Light, plane::Plane};
+use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::Light, plane::Plane, prism::Prism};
 
 fn main() {
     let mut image = Image::blank(1600, 900);
@@ -29,6 +29,9 @@ fn main() {
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 0), 1, Color::hex("#FFFFFF").unwrap())));   // white (duh)
 
     scene.shapes.push(Box::new(Plane::new(Vec3::J * -1, -6.0, Color::green())));
+
+    // TODO Prism not currently working
+    // scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3), Vec3::new(4, -1, -4), Color::white())));
 
     scene.lights.push(Light::new(Vec3::new(0, 0, -10), Color::hex("#FFFFFF").unwrap()));
     // scene.lights.push(Light::new(Vec3::new(0, 0, -10), Color::hex("#FF0000").unwrap()));

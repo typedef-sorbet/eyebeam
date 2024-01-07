@@ -111,6 +111,19 @@ impl Vec3 {
     pub fn squid(&self) -> f64 {
         self.x * self.x + self.y * self.y + self.z * self.z
     }
+
+    pub fn component(&self, axis: &Self) -> f64 {
+        // Can't use a match here, since Vec3 cannot derive Eq
+        if *axis == Vec3::I {
+            self.x
+        } else if *axis == Vec3::J {
+            self.y
+        } else if *axis == Vec3::K {
+            self.z
+        } else {
+            panic!("component only accepts one of &Vec3::{{I, J, K}}");
+        }
+    }
 }
 
 #[cfg(test)]
