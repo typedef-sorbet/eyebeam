@@ -21,13 +21,13 @@ fn main() {
     let cyan_appearance     = Appearance::new(Color::hex("#00FFFF").unwrap(), Finish::DEFAULT);
     let red_appearance      = Appearance::new(Color::hex("#FF0000").unwrap(), Finish::DEFAULT);
     let magenta_appearance  = Appearance::new(Color::hex("#FF00FF").unwrap(), Finish::DEFAULT);
-    let yellow_appearance   = Appearance::new(Color::hex("#FFFF00").unwrap(), Finish::DEFAULT);
+    let yellow_appearance   = Appearance::new(Color::hex("#FFFF00").unwrap(), Finish::new(0.0, 0.7, 1.0));
     let blue_appearance     = Appearance::new(Color::hex("#0000FF").unwrap(), Finish::DEFAULT);
-    let green_appearance    = Appearance::new(Color::hex("#00FF00").unwrap(), Finish::DEFAULT);
+    let green_appearance    = Appearance::new(Color::hex("#00FF00").unwrap(), Finish::new(0.0, 0.7, 1.0));
     let white_appearance    = Appearance::new(Color::hex("#FFFFFF").unwrap(), Finish::DEFAULT);
 
     // spheres
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new(-5, 0, 0), 1, cyan_appearance)));   // cyan
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new(-5, 0, 0), 1, cyan_appearance.clone())));   // cyan
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 5, 0, 0), 1, red_appearance)));   // red
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0,-5, 0), 1, magenta_appearance)));   // magenta
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0,-5), 1, yellow_appearance)));   // yellow
@@ -35,7 +35,7 @@ fn main() {
     scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 0), 1, white_appearance.clone())));   // white (duh)
 
     // plane
-    scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), white_appearance)));
+    scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), cyan_appearance)));
 
     // prism
     scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3) + Vec3::J, Vec3::new(5, -2, -5) + Vec3::J, green_appearance)));

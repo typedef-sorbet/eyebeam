@@ -39,8 +39,10 @@ impl Ray {
         }
     }
 
-    pub fn reflect(&self, normal: &Vec3) -> Vec3 where Self: Sized {
-        let inverse = self.direction.invert();                                  // dumb local variable bullshit
-        inverse + (((*normal * normal.dot(&inverse)) + self.direction) * 2)     // what the fuck?
+    pub fn reflect(&self, normal: &Vec3) -> Vec3 {
+        // let inverse = self.direction.invert();                                  // dumb local variable bullshit
+        // inverse + (((*normal * normal.dot(&inverse)) + self.direction) * 2)     // what the fuck?
+        let incident = self.direction;
+        incident - *normal * (incident.dot(normal)) * 2
     }
 }

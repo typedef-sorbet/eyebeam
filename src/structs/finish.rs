@@ -10,7 +10,7 @@ pub struct Finish {
 }
 
 impl Finish {
-    pub const DEFAULT: Finish = Finish { ambient: 0.0, diffuse: 0.7, shiny: 0.0};
+    pub const DEFAULT: Finish = Finish { ambient: 0.0, diffuse: 1.0, shiny: 0.0};
 
     pub fn new(ambient: f64, diffuse: f64, shiny: f64) -> Self {
         Self {
@@ -24,7 +24,7 @@ impl Finish {
         if self.shiny <= 0.0 {
             Color::black()
         } else {
-            let mut intensity = reflex.dot(&light_vector.unit());
+            let mut intensity = reflex.unit().dot(&light_vector.unit());
             if intensity <= 0.0 {
                 Color::black()
             } else {

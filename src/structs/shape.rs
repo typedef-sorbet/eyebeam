@@ -47,7 +47,7 @@ pub trait Shape {
 
             if brightness <= 0.0 { continue; }
 
-            let illumination = light.illuminate(self.appearance().material, *point, brightness);
+            let illumination = light.illuminate(self.appearance().diffuse_color_at(point), *point, brightness);
 
             color = color_add(&color, &illumination);
 
