@@ -30,7 +30,7 @@ fn main() {
     scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), Color::white())));
 
     // TODO Prism not currently working
-    // scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3), Vec3::new(4, -1, -4), Color::white())));
+    scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3), Vec3::new(4, -1, -4), Color::white())));
 
     scene.lights.push(Light::new(Vec3::new(5, -5, -5) * 10, Color::hex("#FFFFFF").unwrap()));
     // scene.lights.push(Light::new(Vec3::new(0, 0, -10), Color::hex("#FF0000").unwrap()));

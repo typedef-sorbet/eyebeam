@@ -34,7 +34,7 @@ impl Shape for Prism {
             }
         }
 
-        panic!("Given point is not on the surface of this prism");
+        panic!("Given point is not on the surface of this prism: {:?}", point);
     }
 
     fn material(&self) -> raster::Image {
@@ -58,7 +58,7 @@ impl Prism {
 
         if ray.direction.component(axis).abs() > f64::EPSILON {
             for vertex in [self.corner_ll, self.corner_ur] {
-                let intersect = vertex.component(axis) - ray.origin.component(axis) / ray.direction.component(axis);
+                let intersect = (vertex.component(axis) - ray.origin.component(axis)) / ray.direction.component(axis);
                 let point = ray.origin + (ray.direction * intersect);
                 if self.contains(&point, &other_axes[0]) && self.contains(&point, &other_axes[1]) {
                     intersections.push(intersect);
