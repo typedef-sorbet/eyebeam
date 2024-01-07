@@ -34,8 +34,13 @@ impl Ray {
                 // nearest_shape.color()
 
                 let point: Vec3 = self.origin + (self.direction * shortest_distance);
-                nearest_shape.color_at(&point, scene)
+                nearest_shape.color_at(&point, self, scene)
             }
         }
+    }
+
+    pub fn reflect(&self, normal: &Vec3) -> Vec3 where Self: Sized {
+        let inverse = self.direction.invert();                                  // dumb local variable bullshit
+        inverse + (((*normal * normal.dot(&inverse)) + self.direction) * 2)     // what the fuck?
     }
 }

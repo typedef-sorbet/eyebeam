@@ -9,3 +9,5 @@ pub mod color;
 pub mod plane;
 pub mod prism;
 pub mod util;
+pub mod finish;
+pub mod appearance;

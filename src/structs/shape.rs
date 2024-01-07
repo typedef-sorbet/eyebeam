@@ -1,6 +1,6 @@
 use raster::{Color, Image};
 
-use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add};
+use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add, appearance::Appearance};
 
 pub trait Shape {
     fn intersections(&self, _ray: &Ray) -> Vec<f64> {
@@ -26,29 +26,34 @@ pub trait Shape {
         Image::blank(0, 0)
     }
 
-    fn color_at(&self, point: &Vec3, scene: &Scene) -> Color {
+    fn appearance(&self) -> Appearance {
+        panic!("No default appearance for base Shape")
+    }
+
+    fn color_at(&self, point: &Vec3, ray: &Ray, scene: &Scene) -> Color {
         let normal = self.normal_at(point);
-        let mut color = Color::black();
+        let mut color = self.appearance().ambient_color_at(point);
+        let reflex = ray.reflect(&normal);
 
         // point / vector calculations seem to be correct -- the issue might be in illuminate?
 
         for light in &scene.lights {
             let v = Vec3::between(point, &light.position);
+
+            // If this shape is in another shape's shadow, stop the calculation here
+            if scene.shapes.iter().any(|shape| shape.casts_shadow(point, v)) { continue; }
+
             let brightness = normal.dot(&v.unit());
 
-            // println!("Normal vector at point {:?}: {:?} -- dot product is {}", normal, v, brightness);
+            if brightness <= 0.0 { continue; }
 
-            if scene.shapes.iter().any(|shape| shape.casts_shadow(point, v)) {
-                continue;
-            }
-
-            if brightness <= 0.0 { 
-                continue;
-            }
-
-            let illumination = light.illuminate(self.color(), *point, brightness);
+            let illumination = light.illuminate(self.appearance().material, *point, brightness);
 
             color = color_add(&color, &illumination);
+
+            let highlight = self.appearance().finish.add_highlight(&reflex, &light, &v);
+
+            color = color_add(&color, &highlight);
         }
 
         color

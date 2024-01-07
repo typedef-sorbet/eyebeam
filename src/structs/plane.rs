@@ -1,10 +1,9 @@
-use raster::Color;
-use super::{vec3::Vec3, shape::Shape, ray::Ray};
+use super::{vec3::Vec3, shape::Shape, ray::Ray, appearance::Appearance};
 
 pub struct Plane {
     pub point:Vec3,
     pub normal: Vec3,
-    pub color: Color
+    pub appearance: Appearance
 }
 
 impl Shape for Plane {
@@ -18,8 +17,8 @@ impl Shape for Plane {
         }
     }
 
-    fn color(&self) -> Color {
-        self.color.clone()
+    fn appearance(&self) -> Appearance {
+        self.appearance.clone()
     }
 
     fn normal_at(&self, _point: &Vec3) -> Vec3 {
@@ -28,11 +27,11 @@ impl Shape for Plane {
 }
 
 impl Plane {
-    pub fn new(point: Vec3, direction: Vec3, color: Color) -> Self {
+    pub fn new(point: Vec3, direction: Vec3, appearance: Appearance) -> Self {
         Self {
             point,
             normal: direction.unit(),
-            color
+            appearance
         }
     }
 }

@@ -1,11 +1,9 @@
-use raster::Color;
-
-use super::{vec3::Vec3, shape::Shape, util::{fmin, fmax}, ray::Ray};
+use super::{vec3::Vec3, shape::Shape, util::{fmin, fmax}, ray::Ray, appearance::Appearance};
 
 pub struct Prism { 
     pub corner_ll: Vec3,
     pub corner_ur: Vec3,
-    pub color: Color
+    pub appearance: Appearance
 }
 
 impl Shape for Prism {
@@ -19,8 +17,8 @@ impl Shape for Prism {
         res
     }
 
-    fn color(&self) -> Color {
-        self.color.clone()
+    fn appearance(&self) -> Appearance {
+        self.appearance.clone()
     }
 
     fn normal_at(&self, point: &Vec3) -> Vec3 {
@@ -41,11 +39,11 @@ impl Shape for Prism {
 }
 
 impl Prism {
-    pub fn new(corner_a: Vec3, corner_b: Vec3, color: Color) -> Self {
+    pub fn new(corner_a: Vec3, corner_b: Vec3, appearance: Appearance) -> Self {
         Self {
             corner_ll: Vec3::new(fmin(corner_a.x, corner_b.x), fmin(corner_a.y, corner_b.y), fmin(corner_a.z, corner_b.z)),
             corner_ur: Vec3::new(fmax(corner_a.x, corner_b.x), fmax(corner_a.y, corner_b.y), fmax(corner_a.z, corner_b.z)),
-            color
+            appearance
         }
     }
 

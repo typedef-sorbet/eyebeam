@@ -3,7 +3,7 @@
 mod structs;
 
 use raster::{Image, Color, save};
-use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::Light, plane::Plane, prism::Prism};
+use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::Light, plane::Plane, prism::Prism, appearance::Appearance, finish::Finish};
 
 fn main() {
     let mut image = Image::blank(1600, 900);
@@ -18,19 +18,27 @@ fn main() {
 
     let mut scene: Scene = Scene::new(camera, background);
 
+    let cyan_appearance     = Appearance::new(Color::hex("#00FFFF").unwrap(), Finish::DEFAULT);
+    let red_appearance      = Appearance::new(Color::hex("#FF0000").unwrap(), Finish::DEFAULT);
+    let magenta_appearance  = Appearance::new(Color::hex("#FF00FF").unwrap(), Finish::DEFAULT);
+    let yellow_appearance   = Appearance::new(Color::hex("#FFFF00").unwrap(), Finish::DEFAULT);
+    let blue_appearance     = Appearance::new(Color::hex("#0000FF").unwrap(), Finish::DEFAULT);
+    let green_appearance    = Appearance::new(Color::hex("#00FF00").unwrap(), Finish::DEFAULT);
+    let white_appearance    = Appearance::new(Color::hex("#FFFFFF").unwrap(), Finish::DEFAULT);
+
     // spheres
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new(-5, 0, 0), 1, Color::hex("#00FFFF").unwrap())));   // cyan
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 5, 0, 0), 1, Color::hex("#FF0000").unwrap())));   // red
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0,-5, 0), 1, Color::hex("#FF00FF").unwrap())));   // magenta
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0,-5), 1, Color::hex("#FFFF00").unwrap())));   // yellow
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 5), 1, Color::hex("#0000FF").unwrap())));   // blue
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 0), 1, Color::hex("#FFFFFF").unwrap())));   // white (duh)
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new(-5, 0, 0), 1, cyan_appearance)));   // cyan
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 5, 0, 0), 1, red_appearance)));   // red
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0,-5, 0), 1, magenta_appearance)));   // magenta
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0,-5), 1, yellow_appearance)));   // yellow
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 5), 1, blue_appearance)));   // blue
+    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 0), 1, white_appearance.clone())));   // white (duh)
 
     // plane
-    scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), Color::white())));
+    scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), white_appearance)));
 
-    // TODO Prism not currently working
-    scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3), Vec3::new(5, -2, -5), Color::green())));
+    // prism
+    scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3) + Vec3::J, Vec3::new(5, -2, -5) + Vec3::J, green_appearance)));
 
     scene.lights.push(Light::new(Vec3::new(5, -5, -5) * 10, Color::hex("#FFFFFF").unwrap()));
     // scene.lights.push(Light::new(Vec3::new(0, 0, -10), Color::hex("#FF0000").unwrap()));

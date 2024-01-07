@@ -1,21 +1,19 @@
-use raster::Color;
-
-use super::{shape::Shape, vec3::Vec3, ray::Ray};
+use super::{shape::Shape, vec3::Vec3, ray::Ray, appearance::Appearance};
 
 pub struct Sphere { 
     pub center: Vec3,
     pub radius: f64,
-    pub color: Color
+    pub appearance: Appearance
 }
 
 impl Sphere {
-    pub fn new<T>(center: Vec3, radius: T, color: Color) -> Self
+    pub fn new<T>(center: Vec3, radius: T, appearance: Appearance) -> Self
         where T: Into<f64> + Copy
     {
         Self {
             center,
             radius: radius.into(),
-            color
+            appearance
         }
     }
 }
@@ -38,8 +36,8 @@ impl Shape for Sphere {
         }
     }
 
-    fn color(&self) -> Color {
-        self.color.clone()
+    fn appearance(&self) -> Appearance {
+        self.appearance.clone()
     }
 
     fn normal_at(&self, point: &Vec3) -> Vec3 {
