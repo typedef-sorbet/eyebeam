@@ -37,6 +37,6 @@ impl Camera {
         let ray_dir = self.direction + ray_x + ray_y;
         let ray = Ray::new(self.location, ray_dir);
 
-        ray.trace(scene)
+        ray.trace(scene, 0)
     }
 }

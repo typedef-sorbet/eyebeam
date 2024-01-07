@@ -30,10 +30,13 @@ pub trait Shape {
         panic!("No default appearance for base Shape")
     }
 
-    fn color_at(&self, point: &Vec3, ray: &Ray, scene: &Scene) -> Color {
+    fn color_at(&self, point: &Vec3, ray: &Ray, scene: &Scene, depth: i32) -> Color {
         let normal = self.normal_at(point);
         let mut color = self.appearance().ambient_color_at(point);
         let reflex = ray.reflect(&normal);
+        let reflection =  self.appearance().reflect(point, &reflex, scene, depth);
+
+        color = color_add(&color, &reflection);
 
         // point / vector calculations seem to be correct -- the issue might be in illuminate?
 

@@ -11,6 +11,8 @@ pub struct Ray {
 }
 
 impl Ray {
+    const MAX_DEPTH: i32 = 16;
+
     pub fn new(origin: Vec3, direction: Vec3) -> Self {
         Self {
             origin,
@@ -18,7 +20,11 @@ impl Ray {
         }
     }
 
-    pub fn trace(&self, scene: &Scene) -> Color { 
+    pub fn trace(&self, scene: &Scene, depth: i32) -> Color {
+        if depth > Self::MAX_DEPTH {
+            return scene.background.clone()
+        }
+
         let objects_and_distances: Vec<(&Box<dyn Shape>, f64)> = scene.shapes.iter().map(|s: &Box<dyn Shape>| (s, s.closest_distance_along_ray(self))).collect();
 
         if objects_and_distances.is_empty() {
@@ -34,14 +40,12 @@ impl Ray {
                 // nearest_shape.color()
 
                 let point: Vec3 = self.origin + (self.direction * shortest_distance);
-                nearest_shape.color_at(&point, self, scene)
+                nearest_shape.color_at(&point, self, scene, depth + 1)
             }
         }
     }
 
     pub fn reflect(&self, normal: &Vec3) -> Vec3 {
-        // let inverse = self.direction.invert();                                  // dumb local variable bullshit
-        // inverse + (((*normal * normal.dot(&inverse)) + self.direction) * 2)     // what the fuck?
         let incident = self.direction;
         incident - *normal * (incident.dot(normal)) * 2
     }

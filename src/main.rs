@@ -9,7 +9,7 @@ fn main() {
     let mut image = Image::blank(1600, 900);
 
     let camera: Camera = Camera::new(
-        Vec3::new(-5, -12, -12),
+        Vec3::new(-5, -5, -12),
         Vec3::K,
         4.0, 9.0 / 4.0
     );
@@ -18,12 +18,12 @@ fn main() {
 
     let mut scene: Scene = Scene::new(camera, background);
 
-    let cyan_appearance     = Appearance::new(Color::hex("#00FFFF").unwrap(), Finish::DEFAULT);
-    let red_appearance      = Appearance::new(Color::hex("#FF0000").unwrap(), Finish::DEFAULT);
-    let magenta_appearance  = Appearance::new(Color::hex("#FF00FF").unwrap(), Finish::DEFAULT);
-    let yellow_appearance   = Appearance::new(Color::hex("#FFFF00").unwrap(), Finish::new(0.0, 0.7, 1.0));
+    let cyan_appearance     = Appearance::new(Color::hex("#00FFFF").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
+    let red_appearance      = Appearance::new(Color::hex("#FF0000").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
+    let magenta_appearance  = Appearance::new(Color::hex("#FF00FF").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
+    let yellow_appearance   = Appearance::new(Color::hex("#FFFF00").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.0));
     let blue_appearance     = Appearance::new(Color::hex("#0000FF").unwrap(), Finish::DEFAULT);
-    let green_appearance    = Appearance::new(Color::hex("#00FF00").unwrap(), Finish::new(0.0, 0.7, 1.0));
+    let green_appearance    = Appearance::new(Color::hex("#00FF00").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
     let white_appearance    = Appearance::new(Color::hex("#FFFFFF").unwrap(), Finish::DEFAULT);
 
     // spheres
