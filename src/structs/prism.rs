@@ -1,5 +1,3 @@
-use std::cmp::min;
-
 use raster::Color;
 
 use super::{vec3::Vec3, shape::Shape, util::{fmin, fmax}, ray::Ray};
@@ -18,7 +16,7 @@ impl Shape for Prism {
             res.append(self.intersect_on_axis(&axis, ray).as_mut());
         }
 
-        return res;
+        res
     }
 
     fn color(&self) -> Color {
@@ -66,7 +64,7 @@ impl Prism {
             }
         }
 
-        return intersections;
+        intersections
     }
 
     pub fn contains(&self, point: &Vec3, axis: &Vec3) -> bool {

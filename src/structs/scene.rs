@@ -16,6 +16,6 @@ impl Scene<'_> {
     pub fn trace<T>(&self, x: T, y: T) -> Color 
         where T: Into<f64> + Copy 
     {
-        self.camera.trace(&self, x, y)
+        self.camera.trace(self, x, y)
     }
 }

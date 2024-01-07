@@ -1,6 +1,6 @@
 use raster::Color;
 
-use super::{shape::Shape, vec3::Vec3, ray::Ray, scene::Scene, color::color_add};
+use super::{shape::Shape, vec3::Vec3, ray::Ray};
 
 pub struct Sphere { 
     pub center: Vec3,

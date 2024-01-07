@@ -1,5 +1,5 @@
-use raster::{Color, Image};
-use super::{vec3::Vec3, shape::Shape, ray::Ray, scene::Scene, color::color_add};
+use raster::Color;
+use super::{vec3::Vec3, shape::Shape, ray::Ray};
 
 pub struct Plane {
     pub point:Vec3,
@@ -14,7 +14,7 @@ impl Shape for Plane {
         if angle.abs() < f64::EPSILON {
             vec![]
         } else {
-            return vec![(self.point - ray.origin).dot(&self.normal) / angle]
+            vec![(self.point - ray.origin).dot(&self.normal) / angle]
         }
     }
 

@@ -1,6 +1,6 @@
 use raster::{Color, Image};
 
-use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add, light};
+use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add};
 
 pub trait Shape {
     fn intersections(&self, _ray: &Ray) -> Vec<f64> {
@@ -51,7 +51,7 @@ pub trait Shape {
             color = color_add(&color, &illumination);
         }
 
-        return color;
+        color
     }
 
     fn casts_shadow(&self, point: &Vec3, light_vector: Vec3) -> bool {

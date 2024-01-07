@@ -14,15 +14,15 @@ pub struct Camera {
 }
 
 impl Camera {
-    pub fn new<T>(location: &Vec3, look_at: &Vec3, width: T, height: T) -> Self 
+    pub fn new<T>(location: Vec3, look_at: Vec3, width: T, height: T) -> Self 
         where T: Into<f64> + Copy {
-        let direction = Vec3::between(location, look_at).unit();
+        let direction = Vec3::between(&location, &look_at).unit();
         let camera_right = Vec3::J.cross(&direction).unit() * (width.into() / 2.0);
         let camera_up = camera_right.cross(&direction).unit().invert() * (-height.into() / 2.0);
         
         Camera {
-            location: location.clone(),
-            look_at: look_at.clone(),
+            location,
+            look_at,
             direction,
             camera_right,
             camera_up
