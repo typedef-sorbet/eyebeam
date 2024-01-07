@@ -45,28 +45,4 @@ impl Shape for Sphere {
     fn normal_at(&self, point: &Vec3) -> Vec3 {
         (Vec3::between(point, &self.center)).unit().invert()
     }
-
-    fn color_at(&self, point: &Vec3, scene: &Scene) -> Color {
-        let normal = self.normal_at(point);
-        let mut color = Color::black();
-
-        // point / vector calculations seem to be correct -- the issue might be in illuminate?
-
-        for light in &scene.lights {
-            let v = Vec3::between(point, &light.position);
-            let brightness = normal.dot(&v.unit());
-
-            // println!("Normal vector at point {:?}: {:?} -- dot product is {}", normal, v, brightness);
-
-            if brightness <= 0.0 { 
-                continue;
-            }
-
-            let illumination = light.illuminate(self.color.clone(), *point, brightness);
-
-            color = color_add(&color, &illumination);
-        }
-
-        return color;
-    }
 }

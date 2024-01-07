@@ -6,3 +6,6 @@ pub mod shape;
 pub mod sphere;
 pub mod light;
 pub mod color;
+pub mod plane;
+pub mod prism;
+pub mod util;

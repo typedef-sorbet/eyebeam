@@ -1,6 +1,6 @@
 use raster::{Color, Image};
 
-use super::{ray::Ray, vec3::Vec3, scene::Scene};
+use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add};
 
 pub trait Shape {
     fn intersections(&self, _ray: &Ray) -> Vec<f64> {
@@ -22,11 +22,31 @@ pub trait Shape {
         Vec3::O
     }
 
-    fn color_at(&self, _point: &Vec3, _scene: &Scene) -> Color {
-        Color::white()
-    }
-
     fn material(&self) -> Image {
         Image::blank(0, 0)
+    }
+
+    fn color_at(&self, point: &Vec3, scene: &Scene) -> Color {
+        let normal = self.normal_at(point);
+        let mut color = Color::black();
+
+        // point / vector calculations seem to be correct -- the issue might be in illuminate?
+
+        for light in &scene.lights {
+            let v = Vec3::between(point, &light.position);
+            let brightness = normal.dot(&v.unit());
+
+            // println!("Normal vector at point {:?}: {:?} -- dot product is {}", normal, v, brightness);
+
+            if brightness <= 0.0 { 
+                continue;
+            }
+
+            let illumination = light.illuminate(self.color(), *point, brightness);
+
+            color = color_add(&color, &illumination);
+        }
+
+        return color;
     }
 }
