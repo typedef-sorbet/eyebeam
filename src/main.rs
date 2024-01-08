@@ -2,20 +2,23 @@
 
 mod structs;
 
-use std::io::Cursor;
+use std::fs::File;
 
-use image::{codecs::gif::GifEncoder, Frame, RgbaImage, ImageBuffer, ImageFormat, Rgba};
-use raster::{Image, Color, save};
-use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::Light, plane::Plane, prism::Prism, appearance::Appearance, finish::Finish, color::color_from_hex};
+use gif::ExtensionData;
+use image::Rgba;
+use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::Light, plane::Plane, prism::Prism, appearance::Appearance, finish::Finish, color::color_from_hex, animate::Animate};
 
 fn main() {
-    let mut image = Image::blank(1600, 900);
-
-    let camera: Camera = Camera::new(
+    let mut camera: Camera = Camera::new(
         Vec3::new(-5, -5, -12),
         Vec3::K,
         4.0, 9.0 / 4.0
     );
+
+    let frame_delta: f64 = 1.0 / 60.0; // 60 fps
+    let duration: f64 = 1.0;
+
+    camera.add_camera_move(Vec3::new(5, -5, -12), 1.0, Some(Vec3::K));
     
     let background = Rgba([0, 0, 0, 255]);
 
@@ -47,19 +50,33 @@ fn main() {
     // scene.lights.push(Light::new(Vec3::new(0, 0, -10), color_from_hex("#FF0000").unwrap()));
 
     // Create a byte buffer, a cursor into that buffer, and an encoder with a handle to that cursor
-    let mut bytes: Vec<u8> = Vec::new();
-    let mut cursor = Cursor::new(&mut bytes);
-    let gif_encoder = GifEncoder::new_with_speed(cursor, 10);
+    let mut frame_bytes: Vec<u8> = Vec::new();
 
-    let mut img: RgbaImage = ImageBuffer::new(1600, 900);
+    let mut image = File::create("out/animation.gif").unwrap();
+    let mut encoder = gif::Encoder::new(&mut image, 900, 1600, &[]).unwrap();
 
-    // Draw a 50x50 grid of pixels
-    for x in 0..1600 {
-        for y in 0..900 {
-            // image.set_pixel(x, y, scene.trace((x as f64 / 1600.0) - 0.5, (y as f64 / 900.0) - 0.5)).unwrap();
-            img.put_pixel(x, y, scene.trace((x as f64 / 1600.0) - 0.5, (y as f64 / 900.0) - 0.5))
+    encoder.write_extension(ExtensionData::new_control_ext(2, gif::DisposalMethod::Any, false, None)).unwrap();
+
+    for frame_num in 0..(duration / frame_delta).ceil() as i32 {
+        println!("Drawing frame {}...", frame_num);
+        for x in 0..1600 {
+            for y in 0..900 {
+                // frame.put_pixel(x, y, scene.trace((x as f64 / 1600.0) - 0.5, (y as f64 / 900.0) - 0.5));
+                // ???????
+                let color = scene.trace((x as f64 / 1600.0) - 0.5, (y as f64 / 900.0) - 0.5);
+                for byte in color.0 { frame_bytes.push(byte) }
+            }
         }
+
+        println!("Encoding frame {}...", frame_num);
+        let frame = gif::Frame::from_rgba_speed(900, 1600, frame_bytes.as_mut_slice(), 10);
+
+        encoder.write_frame(&frame).unwrap();
+
+        frame_bytes.clear();
+
+        scene.update(frame_delta);
     }
 
-    img.save("out/img.png").unwrap();
+    println!("Done encoding.");
 }

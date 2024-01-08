@@ -1,5 +1,5 @@
 use image::Rgba;
-use super::{camera::Camera, shape::Shape, light::Light};
+use super::{camera::Camera, shape::Shape, light::Light, animate::Animate};
 
 pub struct Scene<'a> {
     pub camera: Camera,
@@ -17,5 +17,15 @@ impl Scene<'_> {
         where T: Into<f64> + Copy 
     {
         self.camera.trace(self, x, y)
+    }
+}
+
+impl Animate for Scene<'_> {
+    fn start(&mut self) {
+        todo!()
+    }
+
+    fn update(&mut self, delta: f64) {
+        self.camera.update(delta);
     }
 }
