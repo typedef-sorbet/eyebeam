@@ -4,7 +4,7 @@ use super::{camera::Camera, shape::Shape, light::Light, animate::Animate};
 pub struct Scene<'a> {
     pub camera: Camera,
     pub background: Rgba<u8>,
-    pub shapes: Vec<Box<dyn Shape + 'a>>,
+    pub shapes: Vec<Box<dyn Shape + Send + Sync + 'a>>,
     pub lights: Vec<Light>
 }
 

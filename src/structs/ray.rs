@@ -25,7 +25,7 @@ impl Ray {
             return scene.background
         }
 
-        let objects_and_distances: Vec<(&Box<dyn Shape>, f64)> = scene.shapes.iter().map(|s: &Box<dyn Shape>| (s, s.closest_distance_along_ray(self))).collect();
+        let objects_and_distances: Vec<(&Box<dyn Shape + Send + Sync>, f64)> = scene.shapes.iter().map(|s: &Box<dyn Shape + Send + Sync>| (s, s.closest_distance_along_ray(self))).collect();
 
         if objects_and_distances.is_empty() {
             println!("No objects in scene");
