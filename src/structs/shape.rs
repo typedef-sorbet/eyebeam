@@ -1,4 +1,4 @@
-use raster::{Color, Image};
+use image::Rgba;
 
 use super::{ray::Ray, vec3::Vec3, scene::Scene, color::color_add, appearance::Appearance};
 
@@ -14,23 +14,20 @@ pub trait Shape {
              .unwrap_or(&f64::INFINITY)                         // if there were no intersections, return inf so the background is rendered
     }
 
-    fn color(&self) -> Color {
-        Color::black()
+    fn color(&self) -> Rgba<u8> {
+        // Default to black
+        Rgba([0, 0, 0, 255])
     }
 
     fn normal_at(&self, _point: &Vec3) -> Vec3 {
         Vec3::O
     }
 
-    fn material(&self) -> Image {
-        Image::blank(0, 0)
-    }
-
     fn appearance(&self) -> Appearance {
         panic!("No default appearance for base Shape")
     }
 
-    fn color_at(&self, point: &Vec3, ray: &Ray, scene: &Scene, depth: i32) -> Color {
+    fn color_at(&self, point: &Vec3, ray: &Ray, scene: &Scene, depth: i32) -> Rgba<u8> {
         let normal = self.normal_at(point);
         let mut color = self.appearance().ambient_color_at(point);
         let reflex = ray.reflect(&normal);

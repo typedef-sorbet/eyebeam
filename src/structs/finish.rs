@@ -1,4 +1,4 @@
-use raster::Color;
+use image::Rgba;
 
 use super::{vec3::Vec3, light::Light, color::color_scale};
 
@@ -22,13 +22,13 @@ impl Finish {
         }
     }
 
-    pub fn add_highlight(&self, reflex: &Vec3, light: &Light, light_vector: &Vec3) -> Color {
+    pub fn add_highlight(&self, reflex: &Vec3, light: &Light, light_vector: &Vec3) -> Rgba<u8> {
         if self.shiny <= 0.0 {
-            Color::black()
+            Rgba([0, 0, 0, 255])
         } else {
             let mut intensity = reflex.unit().dot(&light_vector.unit());
             if intensity <= 0.0 {
-                Color::black()
+                Rgba([0, 0, 0, 255])
             } else {
                 let exponent = 32.0 * self.shiny * self.shiny;
                 intensity = intensity.powf(exponent);

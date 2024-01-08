@@ -1,4 +1,4 @@
-use raster::Color;
+use image::Rgba;
 use crate::structs::vec3::Vec3;
 use crate::structs::scene::Scene;
 
@@ -20,7 +20,7 @@ impl Ray {
         }
     }
 
-    pub fn trace(&self, scene: &Scene, depth: i32) -> Color {
+    pub fn trace(&self, scene: &Scene, depth: i32) -> Rgba<u8> {
         if depth > Self::MAX_DEPTH {
             return scene.background.clone()
         }

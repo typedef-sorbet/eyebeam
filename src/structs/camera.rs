@@ -1,4 +1,4 @@
-use raster::Color;
+use image::Rgba;
 
 use super::vec3::Vec3;
 use super::ray::Ray;
@@ -29,7 +29,7 @@ impl Camera {
         }
     }
 
-    pub fn trace<T>(&self, scene: &Scene, x: T, y: T) -> Color
+    pub fn trace<T>(&self, scene: &Scene, x: T, y: T) -> Rgba<u8>
         where T: Into<f64> + Copy {
 
         let ray_x = self.camera_right * x.into();

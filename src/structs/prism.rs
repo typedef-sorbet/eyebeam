@@ -32,10 +32,6 @@ impl Shape for Prism {
 
         panic!("Given point is not on the surface of this prism: {:?}", point);
     }
-
-    fn material(&self) -> raster::Image {
-        raster::Image::blank(0, 0)
-    }
 }
 
 impl Prism {
