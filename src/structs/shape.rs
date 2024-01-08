@@ -51,7 +51,7 @@ pub trait Shape {
 
             color = color_add(&color, &illumination);
 
-            let highlight = self.appearance().finish.add_highlight(&reflex, &light, &v);
+            let highlight = self.appearance().finish.add_highlight(&reflex, light, &v);
 
             color = color_add(&color, &highlight);
         }

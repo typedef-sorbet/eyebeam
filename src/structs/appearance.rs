@@ -17,7 +17,7 @@ impl Appearance {
     }
 
     pub fn color_at(&self, _point: &Vec3) -> Rgba<u8> {
-        self.material.clone()
+        self.material
     }
 
     pub fn ambient_color_at(&self, point: &Vec3) -> Rgba<u8> {

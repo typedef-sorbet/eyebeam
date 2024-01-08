@@ -1,4 +1,4 @@
-use std::{cmp::min, io::Error, num::ParseIntError};
+use std::cmp::min;
 use anyhow::bail;
 use image::Rgba;
 

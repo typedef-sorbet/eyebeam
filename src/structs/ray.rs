@@ -22,19 +22,19 @@ impl Ray {
 
     pub fn trace(&self, scene: &Scene, depth: i32) -> Rgba<u8> {
         if depth > Self::MAX_DEPTH {
-            return scene.background.clone()
+            return scene.background
         }
 
         let objects_and_distances: Vec<(&Box<dyn Shape>, f64)> = scene.shapes.iter().map(|s: &Box<dyn Shape>| (s, s.closest_distance_along_ray(self))).collect();
 
         if objects_and_distances.is_empty() {
             println!("No objects in scene");
-            scene.background.clone()
+            scene.background
         } else {
             let &(nearest_shape, shortest_distance) = objects_and_distances.iter().reduce(|acc, cur| if acc.1 < cur.1 {acc} else {cur}).unwrap();
 
             if shortest_distance.is_infinite() {
-                scene.background.clone()
+                scene.background
             } else {
                 // No illumination
                 // nearest_shape.color()
