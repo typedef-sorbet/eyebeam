@@ -13,3 +13,5 @@ ndarray = "0.15.6"
 video-rs = { version = "0.5.0", features = ["ndarray"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
+tobj = "4.0.0"
+raster = "0.2.0"

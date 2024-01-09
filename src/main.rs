@@ -8,9 +8,10 @@ use structs::{scene::Scene, camera::Camera, vec3::Vec3, sphere::Sphere, light::L
 use ndarray::Array3;
 use video_rs::{Encoder, EncoderSettings, Locator, Time, PixelFormat, Options};
 
+use crate::structs::mesh::ColoredMesh;
+
 fn main() {
     video_rs::init().unwrap();
-    tracing_subscriber::fmt::init();
 
     let mut camera: Camera = Camera::new(
         Vec3::new(-5, -5, -12),
@@ -28,26 +29,12 @@ fn main() {
     let mut scene: Scene = Scene::new(camera, background);
 
     let cyan_appearance     = Appearance::new(color_from_hex("#00FFFF").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
-    let red_appearance      = Appearance::new(color_from_hex("#FF0000").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
-    let magenta_appearance  = Appearance::new(color_from_hex("#FF00FF").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
-    let yellow_appearance   = Appearance::new(color_from_hex("#FFFF00").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.0));
-    let blue_appearance     = Appearance::new(color_from_hex("#0000FF").unwrap(), Finish::DEFAULT);
-    let green_appearance    = Appearance::new(color_from_hex("#00FF00").unwrap(), Finish::new(0.0, 0.7, 1.0, 0.7));
-    let white_appearance    = Appearance::new(color_from_hex("#FFFFFF").unwrap(), Finish::DEFAULT);
 
     // spheres
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new(-5, 0, 0), 1, cyan_appearance.clone())));   // cyan
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 5, 0, 0), 1, red_appearance)));   // red
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0,-5, 0), 1, magenta_appearance)));   // magenta
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0,-5), 1, yellow_appearance)));   // yellow
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 5), 1, blue_appearance)));   // blue
-    scene.shapes.push(Box::new(Sphere::new(Vec3::new( 0, 0, 0), 1, white_appearance.clone())));   // white (duh)
+    scene.shapes.push(Box::new(ColoredMesh::new("res/teapot.obj", Vec3::new(-5, 0, 0), cyan_appearance.clone())));   // cyan
 
     // plane
     scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), cyan_appearance)));
-
-    // prism
-    scene.shapes.push(Box::new(Prism::new(Vec3::new(3, 0, -3) + Vec3::J, Vec3::new(5, -2, -5) + Vec3::J, green_appearance)));
 
     scene.lights.push(Light::new(Vec3::new(5, -5, -5) * 10, color_from_hex("#FFFFFF").unwrap()));
     // scene.lights.push(Light::new(Vec3::new(0, 0, -10), color_from_hex("#FF0000").unwrap()));

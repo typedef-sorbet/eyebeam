@@ -21,7 +21,7 @@ impl Shape for Prism {
         self.appearance.clone()
     }
 
-    fn normal_at(&self, point: &Vec3) -> Vec3 {
+    fn normal_at(&self, point: &Vec3, _ray: &Ray) -> Vec3 {
         for axis in [Vec3::I, Vec3::J, Vec3::K] {
             if (self.corner_ll.component(&axis) - point.component(&axis)).abs() < 0.00001 {
                 return axis.invert();

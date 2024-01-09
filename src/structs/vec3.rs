@@ -62,6 +62,33 @@ impl PartialEq for Vec3 {
     }
 }
 
+// helper for converting 3-wide float slices to vectors
+impl<T> From<&[T; 3]> for Vec3
+    where T: Into<f64> + Copy
+{
+    fn from(value: &[T; 3]) -> Self {
+        Self {
+            x: value[0].into(),
+            y: value[1].into(),
+            z: value[2].into()
+        }
+    }
+}
+
+// helper for converting arbitrary float slices to vectors
+impl<T> From<&[T]> for Vec3
+    where T: Into<f64> + Copy
+{
+    fn from(value: &[T]) -> Self {
+        assert!(value.len() >= 3);
+        Self {
+            x: value[0].into(),
+            y: value[1].into(),
+            z: value[2].into()
+        }
+    }
+}
+
 impl Vec3 {
     // canonical basis unit vectors for R3
     pub const I: Vec3 = Vec3 {x: 1f64, y: 0f64, z: 0f64};

@@ -12,3 +12,4 @@ pub mod util;
 pub mod finish;
 pub mod appearance;
 pub mod animate;
+pub mod mesh;

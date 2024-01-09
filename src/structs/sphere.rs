@@ -40,7 +40,7 @@ impl Shape for Sphere {
         self.appearance.clone()
     }
 
-    fn normal_at(&self, point: &Vec3) -> Vec3 {
+    fn normal_at(&self, point: &Vec3, _ray: &Ray) -> Vec3 {
         (Vec3::between(point, &self.center)).unit().invert()
     }
 }

@@ -21,7 +21,7 @@ impl Shape for Plane {
         self.appearance.clone()
     }
 
-    fn normal_at(&self, _point: &Vec3) -> Vec3 {
+    fn normal_at(&self, _point: &Vec3, _ray: &Ray) -> Vec3 {
         self.normal
     }
 }
