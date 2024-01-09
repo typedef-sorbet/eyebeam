@@ -90,9 +90,9 @@ impl ColoredMesh {
         for idx in self.mesh.indices.as_slice().chunks(3) {
             let [vert_index_a, vert_index_b, vert_index_c] = [idx[0], idx[1], idx[2]];
             res.push([
-                self.mesh.positions[(vert_index_a as usize) * 3..(vert_index_a as usize + 1)*3].into(),
-                self.mesh.positions[(vert_index_b as usize) * 3..(vert_index_b as usize + 1)*3].into(),
-                self.mesh.positions[(vert_index_c as usize) * 3..(vert_index_c as usize + 1)*3].into()
+                <&[f32] as Into<Vec3>>::into(&self.mesh.positions[(vert_index_a as usize) * 3..(vert_index_a as usize + 1)*3]) + self.location,
+                <&[f32] as Into<Vec3>>::into(&self.mesh.positions[(vert_index_b as usize) * 3..(vert_index_b as usize + 1)*3]) + self.location,
+                <&[f32] as Into<Vec3>>::into(&self.mesh.positions[(vert_index_c as usize) * 3..(vert_index_c as usize + 1)*3]) + self.location
             ]);
         }
 

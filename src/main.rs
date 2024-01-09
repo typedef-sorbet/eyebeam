@@ -56,7 +56,7 @@ fn main() {
     let red_appearance = Appearance::new(color_from_hex("#FF0000").unwrap(), Finish::new(0.0, 0.7, 0.7, 0.7));
 
     // shapes
-    scene.shapes.push(Box::new(ColoredMesh::new("res/teapot.obj", Vec3::new(-5, -10, 0), red_appearance)));
+    scene.shapes.push(Box::new(ColoredMesh::new("res/teapot.obj", Vec3::new(-5, -5, 0), red_appearance)));
 
     // plane
     scene.shapes.push(Box::new(Plane::new(Vec3::O + Vec3::J, Vec3::J.invert(), cyan_appearance)));
