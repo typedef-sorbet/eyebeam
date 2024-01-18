@@ -110,7 +110,7 @@ fn main() {
     
             println!("Encoding frame {}...", frame_num);
             // let frame = Array3::from_shape_fn((900, 1600, 3), |(y, x, c)| pixels[900 * x + y][c]);
-            video_encoder.encode(&pixel_data.lock().unwrap(), &video_position).expect(&format!("Unable to encode {}th frame", frame_num));
+            video_encoder.encode(&pixel_data.lock().unwrap(), &video_position).unwrap_or_else(|_| panic!("Unable to encode {}th frame", frame_num));
         
             // update scene and video encoder
             scene.update(frame_delta);

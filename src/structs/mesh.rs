@@ -48,8 +48,8 @@ impl Shape for ColoredMesh {
 
 impl ColoredMesh {
     pub fn new(mesh_url: &str, location: Vec3, appearance: Appearance) -> Self {
-        let (models, _materials) = tobj::load_obj(mesh_url, &tobj::GPU_LOAD_OPTIONS).expect(&format!("Unable to load object file {}", mesh_url));
-        let mesh = models.into_iter().nth(0).expect(&format!("No models defined in {}", mesh_url)).mesh;
+        let (models, _materials) = tobj::load_obj(mesh_url, &tobj::GPU_LOAD_OPTIONS).unwrap_or_else(|_| panic!("Unable to load object file {}", mesh_url));
+        let mesh = models.into_iter().nth(0).unwrap_or_else(|| panic!("No models defined in {}", mesh_url)).mesh;
 
         Self {
             mesh,
